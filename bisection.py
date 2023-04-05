@@ -29,6 +29,7 @@ def bisection(a, b, g, iterations=1000, precision=None):
             b = Xmedian
         elif Ymedian < 0:
             a = Xmedian
+        # print(Xmedian)
     return Xmedian
 
 def main():
