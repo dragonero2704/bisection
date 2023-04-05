@@ -60,7 +60,7 @@ def main():
         a = float(input("a: "))
     if b is None:
         b = float(input("b: "))
-
+    f,a,b,i,p = args.f,float(args.a),float(args.b),float(args.iterations),float(args.precision)
     x = bisection(a,b,f,i,p)
     print(x)
     pass
