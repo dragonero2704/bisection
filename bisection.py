@@ -1,6 +1,6 @@
 from math import *
 from argparse import ArgumentParser, RawTextHelpFormatter
-version  = "0.0.1"
+version  = "0.1.1"
 title = f"""
  /$$$$$$$  /$$                               /$$                                    
 | $$__  $$|__/                              |__/                                    
@@ -13,7 +13,7 @@ title = f"""
                                                                                     
                                                                                     
 author: dragonero2704
-version:{version}
+version: {version}
 """
 
 def bisection(a, b, g, iterations=1000, precision=None):
