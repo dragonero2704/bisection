@@ -49,11 +49,17 @@ def main():
 
     if f is None:
         expression = input("f(x): ")
-    expression = expression.replace('^','**')
-    expression = expression.replace('[','(')
-    expression = expression.replace(']',')')
-    expression = expression.replace('{','(')
-    expression = expression.replace('}',')')
+    
+    replaces = {
+        "^":"**",
+        "[":"(",
+        "{":"(",
+        "]":")",
+        "}":")"
+    }
+    for char in replaces:
+        expression = expression.replace(char, replaces[char])
+
     f = eval(f"lambda x:{expression}")
 
     if a is None:
