@@ -66,7 +66,7 @@ def main():
         a = float(input("a: "))
     if b is None:
         b = float(input("b: "))
-    f,a,b,i,p = f,float(a),float(b),int(i),flaot(p)
+    f,a,b,i,p = f,float(a),float(b),int(i),float(p)
     x = bisection(a,b,f,i,p)
     print(x)
     pass
