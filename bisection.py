@@ -1,5 +1,7 @@
 from math import *
 from argparse import ArgumentParser, RawTextHelpFormatter
+import numpy as np
+import matplotlib.pyplot as plt
 version  = "0.1.1"
 title = f"""
  /$$$$$$$  /$$                               /$$                                    
@@ -19,16 +21,25 @@ version: {version}
 def bisection(a, b, g, iterations=1000, precision=None):
     for _ in range(iterations):
         Ya, Yb = g(a), g(b)
+        # print(f"g({a}) = {Ya} g({b}) = {Yb}")
         if Ya*Yb > 0:
-            raise ValueError("f(a)*f(b)>0")
+            raise Exception(f"f(a)*f(b)>0 on iteration {_}")
         Xmedian = (a+b)/2
         Ymedian = g(Xmedian)
         if precision is not None and abs(b-a)/2 <= precision:
             return Xmedian
         elif Ymedian > 0:
-            b = Xmedian
-        elif Ymedian < 0:
-            a = Xmedian
+            if Ya < 0:
+                b = Xmedian
+            else:
+                a = Xmedian
+        else:
+            if Ya < 0:
+                a = Xmedian
+            else:
+                b = Xmedian
+            # Ymedian < 0
+            
         # print(Xmedian)
     return Xmedian
 
@@ -43,6 +54,8 @@ def main():
     parser.add_argument('-b', dest='b', action="store", metavar="<Estremo superiore [a,b]>", help="Estremo superiore nell'intervallo [a,b]")
     parser.add_argument('-i', '--iterations', dest='iterations', action="store", metavar="<numero di iterazioni>", help="Numero massimo di iterazioni della bisezione", default=1000)
     parser.add_argument('-p', '--precision', dest='precision', action="store", metavar="<precisione di abs(a-b)/2>",help="Minimo intervallo [a,b]", default=None)
+    parser.add_argument('-g','--graph', dest='graph', action="store_true",help="Grafico di f(x)")
+    
     args = parser.parse_args()
     # print(args)
     expression,a,b,i,p = args.f,args.a,args.b,args.iterations,args.precision
@@ -61,8 +74,8 @@ def main():
     for char in replaces:
         expression = expression.replace(char, replaces[char])
 
-    f = eval(f"lambda x:{expression}")
-
+    f = eval(f"lambda x:float({expression})")
+    # print(expression)
     if a is None:
         a = float(input("a: "))
     if b is None:
@@ -70,8 +83,21 @@ def main():
     a,b,i = float(a),float(b),int(i)
     if p is not None:
         p = float(p)
-    x = bisection(a,b,f,i,p)
+    print()
+    try:
+        x = bisection(a,b,f,i,p)
+    except e:
+        print(e)
+        x = None
     print(x)
+
+    if args.graph:
+        xArr = np.linspace(a, b,100)
+        # print(xArr)
+        yArr = [f(x) for x in xArr]
+        # print(yArr)
+        plt.plot(xArr,yArr,color="red")
+        plt.show()
     pass
 
 if __name__ == "__main__":
