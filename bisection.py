@@ -44,7 +44,7 @@ def main():
     parser.add_argument('-i', '--iterations', dest='iterations', action="store", metavar="<numero di iterazioni>", help="Numero massimo di iterazioni della bisezione", default=1000)
     parser.add_argument('-p', '--precision', dest='precision', action="store", metavar="<precisione di abs(a-b)/2>",help="Minimo intervallo [a,b]", default=None)
     args = parser.parse_args()
-    # print(args)
+    print(args)
     expression,a,b,i,p = args.f,args.a,args.b,args.iterations,args.precision
 
     if expression is None:
@@ -67,7 +67,9 @@ def main():
         a = float(input("a: "))
     if b is None:
         b = float(input("b: "))
-    a,b,i,p = float(a),float(b),int(i),float(p)
+    a,b,i = float(a),float(b),int(i)
+    if p is not None:
+        p = float(p)
     x = bisection(a,b,f,i,p)
     print(x)
     pass
