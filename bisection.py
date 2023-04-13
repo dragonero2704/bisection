@@ -45,10 +45,11 @@ def main():
     parser.add_argument('-p', '--precision', dest='precision', action="store", metavar="<precisione di abs(a-b)/2>",help="Minimo intervallo [a,b]", default=None)
     args = parser.parse_args()
     # print(args)
-    f,a,b,i,p = args.f,args.a,args.b,args.iterations,args.precision
+    expression,a,b,i,p = args.f,args.a,args.b,args.iterations,args.precision
 
-    if f is None:
+    if expression is None:
         expression = input("f(x): ")
+    
     
     replaces = {
         "^":"**",
@@ -66,7 +67,7 @@ def main():
         a = float(input("a: "))
     if b is None:
         b = float(input("b: "))
-    f,a,b,i,p = f,float(a),float(b),int(i),float(p)
+    a,b,i,p = float(a),float(b),int(i),float(p)
     x = bisection(a,b,f,i,p)
     print(x)
     pass
