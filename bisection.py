@@ -28,7 +28,7 @@ def bisection(a, b, g, iterations=1000, precision=None):
             return a
         if Yb == 0:
             return b
-        print(f"g({a}) = {Ya} g({b}) = {Yb}")
+        # print(f"g({a}) = {Ya} g({b}) = {Yb}")
         if Ya*Yb > 0:
             raise ValueError(f"f(a)*f(b)>0 on iteration {_}")
         Xmedian = (a+b)/2
