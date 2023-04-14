@@ -26,7 +26,7 @@ def bisection(a, b, g, iterations=1000, precision=None):
         Ya, Yb = g(a), g(b)
         # print(f"g({a}) = {Ya} g({b}) = {Yb}")
         if Ya*Yb > 0:
-            raise Exception(f"f(a)*f(b)>0 on iteration {_}")
+            raise ValueError(f"f(a)*f(b)>0 on iteration {_}")
         Xmedian = (a+b)/2
         Ymedian = g(Xmedian)
         if precision is not None and abs(b-a)/2 <= precision:
@@ -95,7 +95,7 @@ def main():
     print()
     try:
         x = bisection(a, b, f, i, p)
-    except e:
+    except ValueError as e:
         print(e)
         x = None
     print(x)
