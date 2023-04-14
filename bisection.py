@@ -21,6 +21,8 @@ version: {version}
 
 def bisection(a, b, g, iterations=1000, precision=None):
     for _ in range(iterations):
+        if a == b:
+            return a
         Ya, Yb = g(a), g(b)
         # print(f"g({a}) = {Ya} g({b}) = {Yb}")
         if Ya*Yb > 0:
@@ -99,7 +101,7 @@ def main():
     print(x)
 
     if args.graph:
-        print("Inserire dominio [A,B]")
+        print(f"Inserire dominio [A,B] di {expression}")
         A = float(input("A: "))
         B = float(input("B: "))
         xArr = np.linspace(A, B, 100)
