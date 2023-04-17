@@ -1,7 +1,16 @@
+from dependencyCheck import depCheck
+
+depCheck(__file__)
+
+
 from math import *
 from argparse import ArgumentParser, RawTextHelpFormatter
 import numpy as np
 import matplotlib.pyplot as plt
+import tabulate
+
+
+
 version = "1.1.1"
 title = f"""
  /$$$$$$$  /$$                               /$$
@@ -17,9 +26,11 @@ title = f"""
 author: dragonero2704
 version: {version}
 """
-
+debug = False
+data = []
 
 def bisection(a, b, g, iterations=1000, precision=None):
+    global data
     for _ in range(iterations):
         if a == b:
             return a
@@ -28,12 +39,17 @@ def bisection(a, b, g, iterations=1000, precision=None):
             return a
         if Yb == 0:
             return b
-        # print(f"g({a}) = {Ya} g({b}) = {Yb}")
+        # if debug:
+        #     print(f"g({a}) = {Ya} g({b}) = {Yb}")
         if Ya*Yb > 0:
             raise ValueError(f"f(a)*f(b)>0 on iteration {_}")
         Xmedian = (a+b)/2
         Ymedian = g(Xmedian)
-        if precision is not None and abs(b-a)/2 <= precision:
+        tolerance = abs(b-a)/2
+
+        data.append({"a":a,"b":b,"f(a)":Ya,"f(b)":Yb,"Xm":Xmedian, "f(Xm)":Ymedian,"error":tolerance})
+
+        if precision is not None and tolerance <= precision:
             return Xmedian
         elif Ymedian > 0:
             if Ya < 0:
@@ -48,6 +64,7 @@ def bisection(a, b, g, iterations=1000, precision=None):
             # Ymedian < 0
 
         # print(Xmedian)
+    
     return Xmedian
 
 
@@ -69,11 +86,14 @@ def main():
                         metavar="<precisione di abs(a-b)/2>", help="Minimo intervallo [a,b]", default=None)
     parser.add_argument('-g', '--graph', dest='graph',
                         action="store_true", help="Grafico di f(x)")
+    parser.add_argument('--print', dest='print',
+                        action="store_true", help="Stampa le iterazione")
 
     args = parser.parse_args()
     # print(args)
     expression, a, b, i, p = args.f, args.a, args.b, args.iterations, args.precision
-
+    global debug
+    debug = args.print
     if expression is None:
         expression = input("f(x): ")
 
@@ -102,6 +122,9 @@ def main():
     except ValueError as e:
         print(e)
         x = None
+    if debug:
+        table = tabulate.tabulate(data, headers="keys", tablefmt="presto",showindex="always",stralign="center")
+        print(table)
     print(x)
 
     if args.graph:
